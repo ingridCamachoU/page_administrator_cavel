@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-background-base: #EB5925;
+        --color-background-ligth: #ffff;
+        --color-text-ligth: #ffff;
+        --color-text-base: #EB5925;
+    }
+}
+
+
+.body{
+    min-width: 100%;
+    min-height: 100vh;
+    overflow: auto;
+
+}
+
+.body.light{
+    background: #ffffff;
+   
+}
+.body.dark{
+    background: #171622;
+
+}
+
