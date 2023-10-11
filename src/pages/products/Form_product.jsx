@@ -30,7 +30,7 @@ const Form_product = ({isOpenModalAddProduct, setIsOpenModalAddProduct}) => {
             className={`${isOpenModalAddProduct ? 'flex flex-col top-0 items-center justify-center flex-wrap z-40 w-full min-h-screen overflow-auto fixed' : 'hidden'} ${darkMode ? 'bg-[#000000]/[90%]': 'bg-white/[90%]'}`}
             onClick={close}>
             
-            <div 
+            <form 
                 className={`${isOpenModalAddProduct && ' shadow-xl rounded-lg flex absolute flex-col lg:w-[500px] flex-wrap md:w-4/6 sm:w-4/6 w-10/12 top-16'} ${darkMode ? 'bg-[#212130]': 'bg-white'}`}
                 onClick={handleModalClick}>
 
@@ -109,7 +109,7 @@ const Form_product = ({isOpenModalAddProduct, setIsOpenModalAddProduct}) => {
                                 isMulti
                                 name="colors"
                                 options={options}
-                                className="basic-multi-select"
+                                className="basic-multi-select w-48"
                                 classNamePrefix="select" 
                             />
                         </div>
@@ -132,7 +132,7 @@ const Form_product = ({isOpenModalAddProduct, setIsOpenModalAddProduct}) => {
                             className="rounded-lg bg-gray-500 p-2 text-white cursor-pointer h-10 hover:bg-gray-600"/>
                     </div>    
                 </div>
-            </div>
+            </form>
         
         </div>
     );

@@ -8,13 +8,9 @@ export const Modal = () => {
 
     //Modal Toppins//
     const [isOpenModalAddToppins, setIsOpenModalAddToppins] = useState(false);
-    const [isOpenModalEditToppins, setIsOpenModalEditToppins] = useState(false);
-
-    //Modal Add//
-    const [isOpenModalAdd, setOpenModalAdd] = useState(false);
 
     //Modal Worker//
-    const [isOpenModalAddworker, setOpenModalAddworker] = useState(false);
+    const [isOpenModalAddWorker, setIsOpenModalAddWorker] = useState(false);
 
     //Modal User//
     const [isOpenModalUser, setOpenModalUser] = useState(false);
@@ -29,14 +25,9 @@ export const Modal = () => {
 
         isOpenModalAddToppins, 
         setIsOpenModalAddToppins,
-        isOpenModalEditToppins, 
-        setIsOpenModalEditToppins,
-
-        isOpenModalAdd,
-        setOpenModalAdd,
-
-        isOpenModalAddworker,
-        setOpenModalAddworker,
+    
+        isOpenModalAddWorker,
+        setIsOpenModalAddWorker,
 
         isOpenModalUser,
         setOpenModalUser,

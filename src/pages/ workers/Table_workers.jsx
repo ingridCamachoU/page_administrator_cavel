@@ -1,97 +1,103 @@
 import { useContext } from "react";
+import Swal from 'sweetalert2';
 import { DarkMode } from '../../context/DarkMode';
 import { PencilIcon,EyeIcon,TrashIcon } from '@heroicons/react/24/solid';
 
-const dataProducts = [
-    {
-        'id': '01',
-        'name': 'Saray Perez',
-        'cargo': 'Mesera',
-        'celular': 303489988,
-        'direccion': 'cll 5-# 12-90 brr el salado',
-        'contacto_emergencia': 'Luis Sanchez 312 348 908',
-    },
-    {
-        'id': '02',
-        'name': 'Saray Perez',
-        'cargo': 'Cajer',
-        'celular': 303489988,
-        'direccion': 'cll 5-# 12-90 brr el salado',
-        'contacto_emergencia': 'Luis Sanchez 312 348 908',
-    },
-    {
-        'id': '03',
-        'name': 'Saray Perez',
-        'cargo': 'Cheff',
-        'celular': 303489988,
-        'direccion': 'cll 5-# 12-90 brr el salado',
-        'contacto_emergencia': 'Luis Sanchez 312 348 908',
-    },
-];
 
-const Table_workers = () => {
+
+// eslint-disable-next-line react/prop-types
+const Table_workers = ({dataWorkers, setEditDataWorkers, setIsOpenModalAddWorker, load_data_workers, setTitle, setIsOpenModalDetailsWorker}) => {
 
     const {darkMode} = useContext(DarkMode);
-
-    const handleEditProduct = (product) => {
-        console.log('editado:'+ product);
+    
+    //Update Worker//
+    const handleEditWorker = (worker) => {
+        setEditDataWorkers(worker);
+        setIsOpenModalAddWorker(true); 
+        load_data_workers(worker?.id);
+        setTitle('Editar Trabajador');
     };
 
-    const handleDetailsProduct = (product) => {
-        console.log('detalles:'+ product);
+    //Delete Worker//
+    const handleDeleteworker = (id) => {  
+        Swal.fire({
+            title: 'Eliminar producto',
+            text: "Está seguro de eliminar el trabajador?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // deleteWorker(id, load_data_workers);
+            }
+        });
     };
 
-    const handleDeleteProduct = (product) => {  
-        console.log('ha sido eliminado:'+ product);
+    //Detail Worker//
+    const handleDetailsWorke = (worker) => {
+        setIsOpenModalDetailsWorker(true);
+        setEditDataWorkers(worker);
     };
-    return (
-        <>
-            <div className="overflow-x-auto w-full max-w-screen-xl rounded-lg shadow-md mt-4">
-                <table className="w-full text-center text-s font-light pb-4 mb-4 " >
-                    <thead >
-                        <tr className='bg-gray-500 text-white '>
-                            <th className='px-2 py-2 font-medium'>NOMBRE</th>
-                            <th className='px-2 py-2 font-medium'>CARGO</th>
-                            <th className='px-2 py-2 font-medium'>CELULAR</th>
-                            <th className='px-2 py-2 font-medium'>DIRECCIÓN</th>
-                            <th className='px-2 py-2 font-medium'>CONTACTO EMERGENCIA</th>
-                            <th className='px-2 py-2 font-medium'>ACCIONES</th>
-                        </tr>
-                    </thead>
 
-                    <tbody className={`${darkMode ? 'bg-[#212130] text-white' : 'bg-white text-black'}`}>
-                        {   
-                            dataProducts.length === 0 ? <tr className='border-b text-center w-full'><td colSpan="10" className='px-4 py-2 text-center'>No hay datos</td></tr> : (dataProducts.map)(product => (
-                                <tr key={product.id} className='border-b w-full'>
-                                    <td className='py-2'>{product.name}</td>
-                                    <td className='py-2'>{product.cargo}</td>
-                                    <td className=' py-2'>{product.celular}</td>
-                                    <td className=' py-2'>{product.direccion}</td>
-                                    <td className=' py-2'>{product.contacto_emergencia}</td>
-                                    <td className='flex py-2 gap-1 justify-center items-center pr-2 pt-6'>
-                                        <button 
-                                            className='bg-gray-500 text-white p-1 rounded-lg'
-                                            onClick={() => handleEditProduct(product.id)}>
-                                            <PencilIcon className='h4 w-4'/></button>
-
-                                        <button 
-                                            className='bg-gray-500 text-white p-1 rounded-lg'
-                                            onClick={ () => handleDeleteProduct (product.id)}>   
-                                            <TrashIcon className='h4 w-4'/></button>
-
-                                        <button 
-                                            className='bg-gray-500 text-white p-1 rounded-lg'
-                                            onClick={ () => handleDetailsProduct (product)}>
-                                            <EyeIcon className='h4 w-4'/></button>
-                                    </td>
+    return (    
+        <div className="flex flex-col w-full mt-6 ">
+            <div className="sm:-mx-4 lg:-mx-4 flex justify-center ">
+                <div className="inline-block w-11/12 sm:px-2 lg:px-2 ">
+                    <div className="overflow-x-auto ">
+                        <table className="w-full text-center text-s font-light pb-4 mb-4 shadow-md border" >
+                            <thead >
+                                <tr className={
+                                    `${darkMode 
+                                        ? 'bg-[#222230] border-b border-gray-400 text-gray-200' 
+                                        : 'bg-skin-ligth'
+                                    }`
+                                }>
+                                    <th className='px-4 py-3 text-sm'>NOMBRE</th>
+                                    <th className='px-4 py-3 text-sm'>CARGO</th>
+                                    <th className='px-4 py-3 text-sm'>CELULAR</th>
+                                    <th className='px-4 py-3 text-sm'>DIRECCIÓN</th>
+                                    <th className='px-4 py-3 text-sm'>CONTACTO EMERGENCIA</th>
+                                    <th className='px-2 py-3 text-sm'>ACCIONES</th>
                                 </tr>
-                            ))
-                        }
-                        
-                    </tbody>
-                </table>  
+                            </thead>
+
+                            <tbody className={`${darkMode ? 'bg-[#222230] text-white border' : 'bg-white text-black border'}`}>
+                                {   
+                                    dataWorkers?.length === 0 ? <tr className='border-b text-center w-full'><td colSpan="10" className='px-4 py-2 text-center'>No hay datos</td></tr> : (dataWorkers?.map)(worker => (
+                                        <tr key={worker?.id} className=' w-11/12'>
+                                            <td className='py-2'>{worker?.name}</td>
+                                            <td className='py-2'>{worker?.cargo}</td>
+                                            <td className=' py-2'>{worker?.celular}</td>
+                                            <td className=' py-2'>{worker?.direccion}</td>
+                                            <td className=' py-2'>{worker?.contacto_emergencia}</td>
+                                            <td className='flex py-2 gap-1 justify-center items-center pr-2 pt-6 px-2'>
+                                                <button 
+                                                    className='bg-gray-400 text-white p-1 rounded-lg'
+                                                    onClick={() => handleEditWorker(worker?.id)}>
+                                                    <PencilIcon className='h4 w-4'/></button>
+
+                                                <button 
+                                                    className='bg-gray-400 text-white p-1 rounded-lg'
+                                                    onClick={ () => handleDeleteworker(worker?.id)}>   
+                                                    <TrashIcon className='h4 w-4'/></button>
+
+                                                <button 
+                                                    className='bg-gray-400 text-white p-1 rounded-lg'
+                                                    onClick={ () => handleDetailsWorke(worker)}>
+                                                    <EyeIcon className='h4 w-4'/></button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                                
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
             </div>
-        </>
+        </div>
     );
 };
 

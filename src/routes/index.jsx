@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Private_Layout from "../layout/Private_Layout";
 import Products_index from "../pages/products/Products_index";
-import Workers_index from "../pages/ workers/ Workers_index";
+import Toppins_index from "../pages/toppins/Toppins_index";
+import Workers_index from "../pages/ workers/Workers_index";
 
 export const router = createBrowserRouter ([
     {
@@ -15,6 +16,10 @@ export const router = createBrowserRouter ([
             {
                 path: "workers",
                 element: <Workers_index />
+            },
+            {
+                path: "toppins",
+                element: <Toppins_index />
             }
         ]
         

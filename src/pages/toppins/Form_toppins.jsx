@@ -1,17 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { DarkMode } from "../../context/DarkMode";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useForm } from "../../hooks/useForm";
-import { initialFormWorkers } from "../../utils/initialialization";
+import {useForm} from "../../hooks/useForm";
+import { initialFormToppins } from "../../utils/initialialization";
+import { addToppins, updateToppin } from "../../services/toppins";
 
 // eslint-disable-next-line react/prop-types
-const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load_data_workers, setIsOpenModalAddWorker, isOpenModalAddworker}) => {
-
+const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_data_toppins, editDataToppin, setEditDataToppin, title, setTitle, toppin}) => {
+    
     const {darkMode} = useContext(DarkMode);
 
     const handleModalClick = e => e.stopPropagation();
 
-    const [ formData, handleChange, setFormData ] = useForm(initialFormWorkers);
+    const [ formData, handleChange, setFormData ] = useForm(initialFormToppins);
     const [ disabled, setDisabled ] = useState(false);
     
     //---Form Validation---//
@@ -19,39 +20,23 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
     const onValidate = (formData)=>{
         let errors = {};
         let regexName = /^([A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]){5,20}$/;
-        let regexCargo = /^([A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]){5,20}$/;
-        let regexEphone = /^[0-9]{5,20}$/;
-        let regexDirection = /^([A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]){5,20}$/;
-        let regexContacto = /^.{1,50}$/;
-        
+        let regexDescription = /^.{1,50}$/;
+        let regexPrice = /^[0-9]+$/;
+
         if (!formData.name.trim()){
             errors.name= 'El campo no debe ser vacio.';
         }else if(!regexName.test(formData.name)){
             errors.name= 'El campo es incorrecto debe tener de 5 a 20 caracteres.';
         }
 
-        if (!formData.cargo.trim()){
-            errors.cargo= 'El campo no debe ser vacio.';
-        }else if(!regexCargo.test(formData.cargo)){
-            errors.cargo= 'El campo es incorrecto debe tener de 5 a 20 caracteres.';
+        if (!formData.description.trim()){
+            errors.description= 'El campo no debe ser vacio.';
+        }else if(!regexDescription.test(formData.description)){
+            errors.description= 'El campo es incorrecto debe tener de 5 hasta 50 caracteres.';
         }
 
-        if (!formData.celular.trim()){
-            errors.celular= 'El campo no debe ser vacio.';
-        }else if(!regexEphone.test(formData.celular)){
-            errors.celular= 'El campo es incorrecto debe tener 10 caracteres.';
-        }
-
-        if (!formData.direccion.trim()){
-            errors.direccion= 'El campo no debe ser vacio.';
-        }else if(!regexDirection.test(formData.direccion)){
-            errors.direccion= 'El campo es incorrecto debe tener de 5 a 20 caracteres.';
-        }
-
-        if (!formData.contacto.trim()){
-            errors.contacto= 'El campo no debe ser vacio.';
-        }else if(!regexContacto.test(formData.contacto)){
-            errors.contacto= 'El campo es incorrecto debe tener de 5 a 20 caracteres.';
+        if(!regexPrice.test(formData.price)){
+            errors.price= 'El campo "Precio" no debe estar vacio.';
         }
 
         return errors;
@@ -61,9 +46,9 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
  
     const close = () => {
         setDisabled(false);
-        setIsOpenModalAddWorker(false);
-        setFormData(initialFormWorkers);
-        setEditDataWorkers(null);
+        setIsOpenModalAddToppins(false);
+        setFormData(initialFormToppins);
+        setEditDataToppin(null);
         setErrors('');
     };
 
@@ -75,36 +60,34 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
             images: e.target.files[0],
         });
     };
-
+    
     useEffect(() => {
-        if( editDataWorkers !== null){
+        if( editDataToppin !== null){
             const copyData = {
-                'name': editDataWorkers?.name,
-                'cargo': editDataWorkers?.cargo,
-                'celular': editDataWorkers?.celular,
-                'direccion': editDataWorkers?.direccion,
-                'contacto': editDataWorkers?.contacto,
+                'name': editDataToppin?.name,
+                'description': editDataToppin?.description,
+                'price': editDataToppin?.price,
                 'image': '',
-                'images': editDataWorkers?.image,
+                'images': editDataToppin?.image,
             };
             setFormData(copyData);
         } else{
-            setFormData(initialFormWorkers);
+            setFormData(initialFormToppins);
             setTitle('Agregar Toppins');
         }
-    },[editDataWorkers]);
+    },[editDataToppin]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors(err);        
         if (Object.keys(err).length === 0){
             if (formData.name !== '' && formData.description !== ''  && formData.price !== ''){
-                if (editDataWorkers !== null){
-                    updateWorker(editDataWorkers?.id, formData, load_data_workers);
+                if (editDataToppin !== null){
+                    updateToppin(editDataToppin?.id, formData, load_data_toppins, toppin);
                     setErrors(''); 
                     close();                 
                 } else {
-                    addWorker(formData, load_data_workers);
+                    addToppins(formData, load_data_toppins);
                     close();
                 }
             } 
@@ -114,9 +97,9 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
     };
 
     const loadImage = () => {
-        if(formData?.image === '' && editDataWorkers?.image){
+        if(formData?.image === '' && editDataToppin?.image){
             return(
-                <img className="h-16 w-16" src={editDataWorkers?.image} alt="imagen" />
+                <img className="h-16 w-16" src={editDataToppin?.image} alt="imagen" />
             );
         }if(formData?.image){
             return(
@@ -132,9 +115,9 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
     };
 
     const updateNameImg = () => {
-        if(editDataWorkers?.image && formData?.image === '' ){
+        if(editDataToppin?.image && formData?.image === '' ){
             return(
-                <p className="text-xs font-light p-2 overflow-x-auto">{editDataWorkers?.image}</p> 
+                <p className="text-xs font-light p-2 overflow-x-auto">{editDataToppin?.image}</p> 
             );
         }
         if(formData?.image){
@@ -152,7 +135,7 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
     return (
         <div
             className={
-                `${isOpenModalAddworker 
+                `${isOpenModalAddToppins 
                     ? 'flex flex-col top-0 items-center justify-center flex-wrap z-40 w-full min-h-screen overflow-auto fixed' 
                     : 'hidden'} ${darkMode 
                     ? 'bg-[#000000]/[90%]'
@@ -163,7 +146,7 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
 
             <form 
                 className={
-                    `${isOpenModalAddworker && ' shadow-xl rounded-lg flex absolute flex-col lg:w-[500px] flex-wrap md:w-4/6 sm:w-4/6 w-10/12 lg:top-14 sm:top-10 overflow-auto'} ${darkMode 
+                    `${isOpenModalAddToppins && ' shadow-xl rounded-lg flex absolute flex-col lg:w-[500px] flex-wrap md:w-4/6 sm:w-4/6 w-10/12 lg:top-14 sm:top-10 overflow-auto'} ${darkMode 
                         ? 'bg-[#212130]'
                         : 'bg-white'
                     }`
@@ -195,45 +178,17 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
                     </div>
                     
                     <div className="flex-col flex px-4">
-                        <label>Cargo</label>
+                        <label>Precio</label>
                         <input 
-                            type="text" required
+                            type="number" required
                             className="border border-gray-300 rounded-lg p-1"
-                            name="name"
+                            name="price"
                             disabled={disabled}
-                            value={formData.name}
+                            value={formData.price}
                             onChange={handleChange}
                         />
-                        {errors.name && <p className="text-skin-red font-ligth text-xs lg:w-44 p-2 w-full text-center xs:w-full">{errors.name}</p>}
-                    </div>           
-                </div>
-
-                <div className="text-gray-400 flex mb-4 gap-2 justify-around lg:flex-row flex-col ">
-                    <div className="flex-col flex px-4">
-                        <label>Celular</label>
-                        <input 
-                            type="text" required
-                            className="border border-gray-300 rounded-lg p-1"
-                            name="name"
-                            disabled={disabled}
-                            value={formData.name}
-                            onChange={handleChange}
-                        />
-                        {errors.name && <p className="text-skin-red font-ligth text-xs lg:w-44 p-2 w-full text-center xs:w-full">{errors.name}</p>}
-                    </div>
-                    
-                    <div className="flex-col flex px-4">
-                        <label>Dirección</label>
-                        <input 
-                            type="text" required
-                            className="border border-gray-300 rounded-lg p-1"
-                            name="name"
-                            disabled={disabled}
-                            value={formData.name}
-                            onChange={handleChange}
-                        />
-                        {errors.name && <p className="text-skin-red font-ligth text-xs lg:w-44 p-2 w-full text-center xs:w-full">{errors.name}</p>}
-                    </div>           
+                        {errors.price && <p className="text-skin-red font-ligth text-xs lg:w-44 p-2 w-full text-center xs:w-full">{errors.price}</p>}
+                    </div>            
                 </div>
 
                 <div className="text-gray-400 flex mb-4 gap-6 justify-around lg:flex-row flex-col">
@@ -271,7 +226,7 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
                     </div> 
 
                     <div className="flex-col flex px-4">
-                        <label>Contacto de emergencia</label>
+                        <label>Caracteristicas</label>
                         <textarea 
                             type="text" required
                             className="border border-gray-300 rounded-lg p-1"
@@ -297,7 +252,7 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
                             type="submit" 
                             value='Guardar'
                             disabled={disabled}
-                            className="rounded-lg bg-gray-500 p-2 text-white cursor-pointer h-10 hover:bg-gray-600"/>
+                            className="rounded-lg bg-gray-400 p-2 text-white cursor-pointer h-10 hover:bg-gray-600"/>
                     </div>    
                 </div>
             </form>
@@ -306,4 +261,4 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
     );
 };
 
-export default Form_worker;
+export default Form_toppins;

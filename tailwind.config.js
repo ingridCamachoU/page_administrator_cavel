@@ -1,6 +1,6 @@
-import withMT from "@material-tailwind/react/utils/withMT";
+/** @type {import('tailwindcss').Config} */
 
-export default withMT({
+export default {
     content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     theme: {
         extend: {
@@ -8,6 +8,7 @@ export default withMT({
                 skin: {
                     ligth: 'var(--color-text-ligth)',
                     base: 'var(--color-text-base)',
+                    red: 'var(--color-tex-red)'
                 }
             },
             backgroundColor:{
@@ -31,5 +32,5 @@ export default withMT({
         },
     },
     plugins: [],
-});
+};
 
