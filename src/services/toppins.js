@@ -32,7 +32,7 @@ const deleteToppin = (id, loadData) => {
         redirect: 'follow'
     };    
     const response =  response => response.text();
-    const alerts = alert('El producto ha sido eliminado', 'success');
+    const alerts = alert('El toppin ha sido eliminado', 'success');
     helpFetch(endPoints.toppins.deleteToppins(id), config, alerts, response, loadData);
 };
 

@@ -4,7 +4,6 @@ export const Modal = () => {
     
     //Modal Product//
     const [isOpenModalAddProduct, setIsOpenModalAddProduct] = useState(false);
-    const [isOpenModalEditProduct, setIsOpenModalEditProduct] = useState(false);
 
     //Modal Toppins//
     const [isOpenModalAddToppins, setIsOpenModalAddToppins] = useState(false);
@@ -20,8 +19,6 @@ export const Modal = () => {
     return [
         isOpenModalAddProduct, 
         setIsOpenModalAddProduct,
-        isOpenModalEditProduct, 
-        setIsOpenModalEditProduct, 
 
         isOpenModalAddToppins, 
         setIsOpenModalAddToppins,

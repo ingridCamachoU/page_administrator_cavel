@@ -16,3 +16,19 @@ export const Error = (error) => {
         alert('Algo salió mal, pero no te preocupes, no es tu culpa. Vamos a intentarlo de nuevo.!', 'warning');
     }             
 };
+
+export const confirAlert = (title, text, icon, textBtn, fuction) => {
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: textBtn
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fuction;
+        }
+    });
+}

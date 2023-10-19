@@ -14,3 +14,10 @@ export const initialFormWorkers ={
     'contacto': '',
     'image': ''
 };
+
+export const initialFormProduct ={
+    'name': '',
+    'description': '',
+    'price': '',
+    'image': ''
+};

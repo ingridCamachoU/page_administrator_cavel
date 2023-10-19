@@ -73,7 +73,7 @@ const FormToppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, loadDataT
             setFormData(copyData);
         } else{
             setFormData(initialFormToppins);
-            setTitle('Agregar Toppins');
+            setTitle('Agregar Toppin');
         }
     },[editDataToppin]);
 
