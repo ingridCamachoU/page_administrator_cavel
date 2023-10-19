@@ -4,7 +4,7 @@ import Header from "../components/header/Header";
 import { DarkMode } from "../context/DarkMode";
 import { useContext } from "react";
 
-const Private_Layout = () => {
+const PrivateLayout = () => {
 
     const {darkMode} = useContext(DarkMode); 
 
@@ -16,4 +16,4 @@ const Private_Layout = () => {
     );
 };
 
-export default Private_Layout;
+export default PrivateLayout;

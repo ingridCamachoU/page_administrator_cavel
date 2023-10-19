@@ -15,7 +15,7 @@ const options = [
 ];
 
 // eslint-disable-next-line react/prop-types
-const Form_product = ({isOpenModalAddProduct, setIsOpenModalAddProduct}) => {
+const FormProduct = ({isOpenModalAddProduct, setIsOpenModalAddProduct}) => {
 
     const {darkMode} = useContext(DarkMode);
 
@@ -138,5 +138,5 @@ const Form_product = ({isOpenModalAddProduct, setIsOpenModalAddProduct}) => {
     );
 };
 
-export default Form_product;
+export default FormProduct;
 

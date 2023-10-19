@@ -3,10 +3,8 @@ import Swal from 'sweetalert2';
 import { DarkMode } from '../../context/DarkMode';
 import { PencilIcon,EyeIcon,TrashIcon } from '@heroicons/react/24/solid';
 
-
-
 // eslint-disable-next-line react/prop-types
-const Table_workers = ({dataWorkers, setEditDataWorkers, setIsOpenModalAddWorker, load_data_workers, setTitle, setIsOpenModalDetailsWorker}) => {
+const TableWorkers = ({dataWorkers, setEditDataWorkers, setIsOpenModalAddWorker, loadDataWorkers, setTitle, setIsOpenModalDetailsWorker}) => {
 
     const {darkMode} = useContext(DarkMode);
     
@@ -14,7 +12,7 @@ const Table_workers = ({dataWorkers, setEditDataWorkers, setIsOpenModalAddWorker
     const handleEditWorker = (worker) => {
         setEditDataWorkers(worker);
         setIsOpenModalAddWorker(true); 
-        load_data_workers(worker?.id);
+        loadDataWorkers(worker?.id);
         setTitle('Editar Trabajador');
     };
 
@@ -30,7 +28,7 @@ const Table_workers = ({dataWorkers, setEditDataWorkers, setIsOpenModalAddWorker
             confirmButtonText: 'Eliminar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // deleteWorker(id, load_data_workers);
+                // deleteWorker(id, loadDataWorkers);
             }
         });
     };
@@ -101,4 +99,4 @@ const Table_workers = ({dataWorkers, setEditDataWorkers, setIsOpenModalAddWorker
     );
 };
 
-export default Table_workers;
+export default TableWorkers;

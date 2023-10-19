@@ -1,51 +1,40 @@
-
 import { useContext, useEffect, useState } from "react";
-import Layout_base from "../../layout/Layout_base";
+import LayoutBase from "../../layout/LayoutBase";
 import { Modal } from "../../utils/modal";
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { endPoints } from "../../services/endPoints/endPoints";
-import Form_toppins from "./Form_toppins";
-import Item_Toppin from "./Item_toppin";
-import Detail_toppin from "./Detail_toppin";
-import Error from "../../utils/error";
+import DetailToppin from "./DetailToppin";
 import { DarkMode } from "../../context/DarkMode";
+import { useFetch } from "../../hooks/useFetch";
+import { alert } from "../../utils/alerts";
+import Loading from "../../components/Loading";
+import FormToppins from "./FormToppins";
+import ItemToppin from "./ItemToppin";
 
-const Toppins_index = () => {
+const ToppinsIndex = () => {
 
+    const url = endPoints.toppins.getToppins(1);
     const [isOpenModalAddToppins, setIsOpenModalAddToppins] = Modal();
     const [isOpenModalDetailsToppins, setIsOpenModalDetailsToppins] = useState(false);
 
     const [openAcordion, setOpenAcordion] = useState(true);
 
-    const [ dataToppins, setDataToppins] = useState([]);
     const [ editDataToppin, setEditDataToppin ] = useState(null);
     const [title, setTitle]= useState('');
     const [ toppin, setToppin ] = useState('');
+    const [classView, setClassView] = useState('flex flex-col w-full');
 
     const openModalToppins = () => {
         setIsOpenModalAddToppins(true);
     };
 
     const openOrCLoseItem = () => {
-        !openAcordion ? setOpenAcordion(true):setOpenAcordion(false);
+        !openAcordion ? setOpenAcordion(true) : setOpenAcordion(false);
+        !openAcordion ? setClassView('flex flex-col w-full') : setClassView('hidden');
     };
+    const data = useFetch(url);
+    const {data:dataToppins, loading, error, loadingData} = data;
     
-    //--load Data Toppins--//
-    const load_data_toppins = () => {
-        fetch(endPoints.toppins.getToppins(1))
-            .then(response => response.json())
-            .then(data => setDataToppins(data.message))
-            .catch((error) => {
-                console.log(error);
-                Error(error);          
-            });
-    };
-
-    useEffect(() => {
-        load_data_toppins();
-    }, []);
-    
-
     const {darkMode} = useContext(DarkMode);
 
     const claseDark = () => {
@@ -60,8 +49,12 @@ const Toppins_index = () => {
         }
     };
 
+    useEffect(() => {
+        loadingData();
+    },[url]);
+
     return (
-        <Layout_base>
+        <LayoutBase>
             <div className={
                 `${darkMode 
                     ? 'flex w-11/12 bg-[#222230] text-gray-300  max-w-screen-xl p-4 justify-between items-center mt-12 mb-6 shadow-sm shadow-white rounded-lg' 
@@ -74,7 +67,7 @@ const Toppins_index = () => {
                         ? 'font-bold text-lg'
                         : 'font-bold text-lg text-skin-base'
                     }`
-                }>LISTA DE TOPPINS</h1>
+                }> LISTA DE TOPPINS </h1>
                 
                 <button 
                     className={
@@ -88,8 +81,8 @@ const Toppins_index = () => {
                 </button> 
             </div>
 
-            <Form_toppins 
-                load_data_toppins={load_data_toppins}
+            <FormToppins 
+                loadDataToppins={loadingData}
                 toppin={toppin}
                 title={title}
                 setTitle={setTitle}
@@ -98,7 +91,7 @@ const Toppins_index = () => {
                 isOpenModalAddToppins={isOpenModalAddToppins}
                 setIsOpenModalAddToppins={setIsOpenModalAddToppins}/>
 
-            <Detail_toppin 
+            <DetailToppin 
                 isOpenModalDetailsToppins={isOpenModalDetailsToppins} 
                 setIsOpenModalDetailsToppins={setIsOpenModalDetailsToppins}
                 setEditDataToppin={setEditDataToppin}
@@ -128,32 +121,46 @@ const Toppins_index = () => {
         
                 </div>
                 {
-                    openAcordion && dataToppins.length > 0 
-                        ? dataToppins.map( toppin => (
-                            <Item_Toppin 
-                                key={toppin.id}
-                                setToppin={setToppin}
-                                toppin={toppin}
-                                setIsOpenModalDetailsToppins={setIsOpenModalDetailsToppins}
-                                setEditDataToppin={setEditDataToppin}
-                                setIsOpenModalAddToppins={setIsOpenModalAddToppins}
-                                load_data_toppins={load_data_toppins}
-                                setTitle={setTitle}/>
-                        ))
+                    loading 
+                        ? <Loading />
 
-                        : null   
+                        : 
+                        <div className={classView}>
+                            {
+                                dataToppins.length > 0 
+                                    ? dataToppins.map( toppin => (
+                                        <ItemToppin 
+                                            key={toppin.id}
+                                            setToppin={setToppin}
+                                            toppin={toppin}
+                                            setIsOpenModalDetailsToppins={setIsOpenModalDetailsToppins}
+                                            setEditDataToppin={setEditDataToppin}
+                                            setIsOpenModalAddToppins={setIsOpenModalAddToppins}
+                                            loadDataToppins={loadingData}
+                                            setTitle={setTitle}/>
+                                    ))
+
+                                    : null   
+                            }
+                            
+                            {
+                                dataToppins.length === 0 && error === null
+                                    ? <div className='flex w-full mb-4 mt-4 px-4 justify-center'>No hay toppins registrados</div>
+
+                                    : null   
+                            }
+                        </div>
                 }
                 {
-                    openAcordion && dataToppins.length === 0 
-                        ? <div className='flex w-full mb-4 mt-4 px-4 justify-center'>No hay toppins registrados</div>
-
-                        : null   
+                    error !== null 
+                        ? alert('Error de conexión', 'error')
+                        : null
                 }
-    
+  
             </div>
 
-        </Layout_base>
+        </LayoutBase>
     );
 };
 
-export default Toppins_index;
+export default ToppinsIndex;

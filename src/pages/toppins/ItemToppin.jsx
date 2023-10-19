@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { DarkMode } from '../../context/DarkMode';
 
 // eslint-disable-next-line react/prop-types
-const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_data_toppins, setTitle, setToppin, setIsOpenModalDetailsToppins}) => {
+const ItemToppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, loadDataToppins, setTitle, setToppin, setIsOpenModalDetailsToppins}) => {
 
     const {darkMode} = useContext(DarkMode);
 
@@ -22,7 +22,7 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
         setToppin(toppin);
         setEditDataToppin(copyData);
         setIsOpenModalAddToppins(true); 
-        load_data_toppins(toppin?.id);
+        loadDataToppins(toppin?.id);
         setTitle('Editar Toppin');
     };
 
@@ -38,7 +38,7 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
             confirmButtonText: 'Eliminar'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteToppin(id, load_data_toppins);
+                deleteToppin(id, loadDataToppins);
             }
         });
     };
@@ -50,7 +50,7 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
     };
 
     //Actived or Disabled Toppin//
-    const disabled_or_activated_Toppin = (toppin) => {
+    const disabledOrActivatedToppin = (toppin) => {
         if(toppin?.active === 0){
             Swal.fire({
                 title: 'Activar el toppin',
@@ -62,7 +62,7 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
                 confirmButtonText: 'Activar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    activedOrDisabledToppin(toppin, load_data_toppins);
+                    activedOrDisabledToppin(toppin, loadDataToppins);
                 }
             });
         }else{
@@ -76,12 +76,12 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
                 confirmButtonText: 'Desactivar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    activedOrDisabledToppin(toppin, load_data_toppins);
+                    activedOrDisabledToppin(toppin, loadDataToppins);
                 }
             });
         } 
     };
- 
+
     const claseActivetypografia = () => {
         if(toppin?.active === 0 && darkMode){
             return 'flex flex-col md:flex-row w-full mb-4 mt-4 md:px-4 justify-center pl-8 pr-2 text-gray-200 line-through bg-[#222230]';
@@ -109,7 +109,7 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
                    
                     <p 
                         className='h-4 w-4 border cursor-pointer hover:bg-gray-300 hover:text-skin-ligth '
-                        onClick={() => disabled_or_activated_Toppin(toppin)}>
+                        onClick={() => disabledOrActivatedToppin(toppin)}>
                         
                         {   toppin?.active !== 0 
                             ? 
@@ -153,5 +153,5 @@ const Item_Toppin = ({toppin, setEditDataToppin, setIsOpenModalAddToppins, load_
     );
 };
 
-export default Item_Toppin;
+export default ItemToppin;
 

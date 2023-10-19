@@ -6,7 +6,7 @@ import { initialFormToppins } from "../../utils/initialialization";
 import { addToppins, updateToppin } from "../../services/toppins";
 
 // eslint-disable-next-line react/prop-types
-const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_data_toppins, editDataToppin, setEditDataToppin, title, setTitle, toppin}) => {
+const FormToppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, loadDataToppins, editDataToppin, setEditDataToppin, title, setTitle, toppin}) => {
     
     const {darkMode} = useContext(DarkMode);
 
@@ -83,11 +83,11 @@ const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_dat
         if (Object.keys(err).length === 0){
             if (formData.name !== '' && formData.description !== ''  && formData.price !== ''){
                 if (editDataToppin !== null){
-                    updateToppin(editDataToppin?.id, formData, load_data_toppins, toppin);
+                    updateToppin(editDataToppin?.id, formData, loadDataToppins, toppin);
                     setErrors(''); 
                     close();                 
                 } else {
-                    addToppins(formData, load_data_toppins);
+                    addToppins(formData, loadDataToppins);
                     close();
                 }
             } 
@@ -99,11 +99,11 @@ const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_dat
     const loadImage = () => {
         if(formData?.image === '' && editDataToppin?.image){
             return(
-                <img className="h-16 w-16" src={editDataToppin?.image} alt="imagen" />
+                <img className="h-20 w-20" src={editDataToppin?.image} alt="imagen" />
             );
         }if(formData?.image){
             return(
-                <img className="h-16 w-16" src={URL.createObjectURL(formData?.images)} alt="imagen" />
+                <img className="h-20 w-20" src={URL.createObjectURL(formData?.images)} alt="imagen" />
             );
         }if(formData?.image === ''){
             return(
@@ -163,7 +163,7 @@ const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_dat
                     </span>
                 </div>
 
-                <div className="text-gray-400 flex mb-4 gap-2 justify-around lg:flex-row flex-col ">
+                <div className="text-gray-700 flex mb-4 gap-2 justify-around lg:flex-row flex-col ">
                     <div className="flex-col flex px-4">
                         <label>Nombre</label>
                         <input 
@@ -191,7 +191,7 @@ const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_dat
                     </div>            
                 </div>
 
-                <div className="text-gray-400 flex mb-4 gap-6 justify-around lg:flex-row flex-col">
+                <div className="text-gray-700 flex mb-4 gap-6 justify-around lg:flex-row flex-col">
                     <div className="flex-col flex px-4">
                         <div >
                             <label>Imagen</label>
@@ -261,4 +261,4 @@ const Form_toppins = ({isOpenModalAddToppins, setIsOpenModalAddToppins, load_dat
     );
 };
 
-export default Form_toppins;
+export default FormToppins;

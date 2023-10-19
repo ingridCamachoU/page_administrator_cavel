@@ -1,25 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
-import Private_Layout from "../layout/Private_Layout";
-import Products_index from "../pages/products/Products_index";
-import Toppins_index from "../pages/toppins/Toppins_index";
-import Workers_index from "../pages/ workers/Workers_index";
+import PrivateLayout from "../layout/PrivateLayout";
+import ProductsIndex from "../pages/products/ProductsIndex";
+import ToppinsIndex from "../pages/toppins/ToppinsIndex";
+import WorkersIndex from "../pages/ workers/WorkersIndex";
 
 export const router = createBrowserRouter ([
     {
         path: "/",
-        element: <Private_Layout />,
+        element: <PrivateLayout />,
         children: [
             {
                 index: true,
-                element: <Products_index />
+                element: <ProductsIndex />
             },
             {
                 path: "workers",
-                element: <Workers_index />
+                element: <WorkersIndex />
             },
             {
                 path: "toppins",
-                element: <Toppins_index />
+                element: <ToppinsIndex />
             }
         ]
         

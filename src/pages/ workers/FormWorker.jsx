@@ -5,7 +5,7 @@ import { useForm } from "../../hooks/useForm";
 import { initialFormWorkers } from "../../utils/initialialization";
 
 // eslint-disable-next-line react/prop-types
-const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load_data_workers, setIsOpenModalAddWorker, isOpenModalAddworker}) => {
+const FormWorker = ({title, setTitle, editDataWorkers, setEditDataWorkers, loadDataWorkers, setIsOpenModalAddWorker, isOpenModalAddworker, updateWorker, addWorker}) => {
 
     const {darkMode} = useContext(DarkMode);
 
@@ -100,11 +100,11 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
         if (Object.keys(err).length === 0){
             if (formData.name !== '' && formData.description !== ''  && formData.price !== ''){
                 if (editDataWorkers !== null){
-                    updateWorker(editDataWorkers?.id, formData, load_data_workers);
+                    updateWorker(editDataWorkers?.id, formData, loadDataWorkers);
                     setErrors(''); 
                     close();                 
                 } else {
-                    addWorker(formData, load_data_workers);
+                    addWorker(formData, loadDataWorkers);
                     close();
                 }
             } 
@@ -306,4 +306,4 @@ const Form_worker = ({title, setTitle, editDataWorkers, setEditDataWorkers, load
     );
 };
 
-export default Form_worker;
+export default FormWorker;

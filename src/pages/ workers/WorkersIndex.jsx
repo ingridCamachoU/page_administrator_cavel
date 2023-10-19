@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
-import Layout_base from "../../layout/Layout_base";
+import LayoutBase from "../../layout/LayoutBase";
 import { Modal } from "../../utils/modal";
-import Detail_worker from './Detail_worker';
-import Form_worker from "./Form_worker";
-import Table_workers from "./Table_workers";
-import Error from "../../utils/error";
+import DetailWorker from './DetailWorker';
+import FormWorker from "./FormWorker";
+import TableWorkers from "./TableWorkers";
 import { DarkMode } from "../../context/DarkMode";
+import { Error } from "../../utils/alerts";
 
-const Workers_index = () => {
+const WorkersIndex = () => {
 
     const [isOpenModalAddWorker, setIsOpenModalAddWorker] = Modal();
     const [isOpenModalDetailsWorker, setIsOpenModalDetailsWorker] = useState(false);
@@ -44,7 +44,7 @@ const Workers_index = () => {
     const open = () => setIsOpenModalAddWorker(true);
 
     //--load Data Workers--//
-    const load_data_workers = () => {
+    const loadDataWorkers = () => {
         fetch(endPoints.toppins.getToppins(1))
             .then(response => response.json())
             .then(data => setDataWorkers(data.message))
@@ -62,7 +62,7 @@ const Workers_index = () => {
     const {darkMode} = useContext(DarkMode);
 
     return (
-        <Layout_base>
+        <LayoutBase>
             <div 
                 className={
                     `${darkMode 
@@ -109,34 +109,34 @@ const Workers_index = () => {
                 </div>
             </div>
 
-            <Form_worker 
+            <FormWorker 
                 title={title}
                 setTitle={setTitle}
                 editDataWorkers={editDataWorkers}
                 setEditDataWorkers={setEditDataWorkers}
-                load_data_workers={load_data_workers}
+                loadDataWorkers={loadDataWorkers}
                 setIsOpenModalAddWorker={setIsOpenModalAddWorker}
                 isOpenModalAddWorker={isOpenModalAddWorker} />
 
-            <Detail_worker 
+            <DetailWorker 
                 isOpenModalDetailsWorker={isOpenModalDetailsWorker}
                 setIsOpenModalDetailsWorker={setIsOpenModalDetailsWorker}
                 setEditDataWorkers={setEditDataWorkers}
                 editDataWorkers={editDataWorkers}/>
             
-            <Table_workers 
+            <TableWorkers 
                 dataWorkers={dataWorkers}
                 setEditDataWorkers={setEditDataWorkers}
                 setIsOpenModalAddWorker={setIsOpenModalAddWorker}
-                load_data_workers={load_data_workers}
+                loadDataWorkers={loadDataWorkers}
                 setTitle={setTitle}
                 setIsOpenModalDetailsWorker={setIsOpenModalDetailsWorker}/>
 
-        </Layout_base>
+        </LayoutBase>
     );
 };
 
-export default Workers_index;
+export default WorkersIndex;
 
 
 

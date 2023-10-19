@@ -1,12 +1,15 @@
 
-import { useContext, useState } from "react";
-import Layout_base from "../../layout/Layout_base";
+import { useContext, useEffect, useState } from "react";
+import LayoutBase from "../../layout/LayoutBase";
 import { ChevronDownIcon, ChevronUpIcon, PencilIcon, TrashIcon,  EyeIcon } from '@heroicons/react/24/solid';
 import { Modal } from "../../utils/modal";
-import Form_product from "./Form_product";
+import FormProduct from "./FormProduct";
 import { DarkMode } from "../../context/DarkMode";
+import { useFetch } from "../../hooks/useFetch";
+import { endPoints } from "../../services/endPoints/endPoints";
+import ItemToppin from "../toppins/ItemToppin";
 
-const Products_index = () => {
+const ProductsIndex = () => {
 
     const [
         isOpenModalAddProduct, setIsOpenModalAddProduct
@@ -30,7 +33,7 @@ const Products_index = () => {
     const {darkMode} = useContext(DarkMode);
 
     return (
-        <Layout_base>
+        <LayoutBase>
             <div 
                 className={
                     `${darkMode 
@@ -77,7 +80,7 @@ const Products_index = () => {
                 </div>
             </div>
 
-            <Form_product 
+            <FormProduct 
                 isOpenModalAddProduct={isOpenModalAddProduct} 
                 setIsOpenModalAddProduct={setIsOpenModalAddProduct}/>
 
@@ -97,38 +100,7 @@ const Products_index = () => {
                     }
         
                 </div>
-                { 
-                    openAcordion && 
-                    <div className='flex flex-col lg:flex-row lg:justify-between w-full mb-8 mt-8 px-4 justify-center'>
-                        <div className='flex gap-2'>
-                            <input 
-                                type='checkbox'
-                                className='accent-skin-base'/> 
-                            <h4>Charlot</h4>
-                        </div>
-
-                        <p>
-                        Carne, queso americano, tocineta BBQ, salsa de la casa,vegetales
-                        </p>
-
-                        <span>$ 12000</span>
-
-                        <div className=' flex gap-2'>
-                            <button 
-                                className='bg-gray-400 text-white p-1 rounded-lg'>
-                                <PencilIcon className='h4 w-4 cursor-pointer'/>
-                            </button>
-                            <button 
-                                className='bg-gray-400 text-white p-1 rounded-lg'>
-                                <TrashIcon className='h4 w-4 cursor-pointer'/>
-                            </button>
-                            <button 
-                                className='bg-gray-400 text-white p-1 rounded-lg'>   
-                                <EyeIcon className='h4 w-4 cursor-pointer'/>
-                            </button>
-                        </div>
-                    </div>
-                }  
+               
             </div>
             
             <div className="flex mt-6 flex-col items-start w-11/12 bg-skin-ligth shadow-md rounded-lg overflow-x-auto max-w-screen-xl">
@@ -298,8 +270,8 @@ const Products_index = () => {
                 }
                  
             </div>
-        </Layout_base>
+        </LayoutBase>
     );
 };
 
-export default Products_index;
+export default ProductsIndex;
